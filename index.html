@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Aurora</title>
+    <style>
+        /* Previous styles remain the same */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a0a;
+            color: #00ff9d;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+        }
+        .terminal-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+        .terminal-body {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+            height: 70vh;
+            overflow-y: auto;
+        }
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .prompt {
+            color: #00ff9d;
+            margin-right: 10px;
+        }
+        input {
+            background: transparent;
+            border: none;
+            color: #00ff9d;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+        }
+        .output {
+            color: #00ff9d;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+        .history-entry {
+            margin-bottom: 15px;
+            padding: 5px 0;
+            border-bottom: 1px solid #333;
+        }
+        .date {
+            color: #888;
+            font-size: 0.9em;
+        }
+        .ascii-art {
+            white-space: pre;
+            line-height: 1.2;
+            margin: 20px 0;
+            color: #00ff9d;
+            text-align: center;
+            font-family: monospace;
+            text-shadow: 0 0 5px #00ff9d;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="circle red"></div>
+            <div class="circle yellow"></div>
+            <div class="circle green"></div>
+            <span>Terminal Aurora</span>
+        </div>
+        <div class="terminal-body" id="terminal">
+            <div class="ascii-art">
+                    ▄▄▄       █    ██  ██▀███   ▒█████   ██▀███   ▄▄▄      
+                   ▒████▄     ██  ▓██▒▓██ ▒ ██▒▒██▒  ██▒▓██ ▒ ██▒▒████▄    
+                   ▒██  ▀█▄  ▓██  ▒██░▓██ ░▄█ ▒▒██░  ██▒▓██ ░▄█ ▒▒██  ▀█▄  
+                   ░██▄▄▄▄██ ▓▓█  ░██░▒██▀▀█▄  ▒██   ██░▒██▀▀█▄  ░██▄▄▄▄██ 
+                    ▓█   ▓██▒▒▒█████▓ ░██▓ ▒██▒░ ████▓▒░░██▓ ▒██▒ ▓█   ▓██▒
+                    ▒▒   ▓▒█░░▒▓▒ ▒ ▒ ░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░
+                     ▒   ▒▒ ░░░▒░ ░ ░   ░▒ ░ ▒░  ░ ▒ ▒░   ░▒ ░ ▒░  ▒   ▒▒ ░
+                     ░   ▒    ░░░ ░ ░   ░░   ░ ░ ░ ░ ▒    ░░   ░   ░   ▒   
+                         ░  ░   ░        ░         ░ ░     ░           ░  ░
+            </div>
+            <div class="output">Welcome to Terminal Aurora. Type 'help' for available commands.</div>
+            <div class="input-line">
+                <span class="prompt">></span>
+                <input type="text" id="commandInput" autofocus>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Previous script remains the same
+        const commands = {
+            help: 'Available commands: founder, about, history',
+            founder: 'Founder: Elon Musk',
+            about: 'Aurora /XAI is a company working on building artificial intelligence to accelerate human scientific discovery. We are guided by our mission to advance our collective understanding of the universe.',
+            history: [
+                { date: '12 July 2023', event: 'Company announcement "Hello World!". We announced the formation of xAI with the mission to understand the universe.' },
+                { date: '18 August 2023', event: 'Grok-0: We finished training our first flagship model, Grok-0, which is a 33B parameter dense transformer architecture.' },
+                { date: '3 November 2023', event: 'Grok-1: We announce the early-access release of our conversational AI Grok and the Grok-1 model.' },
+                { date: '6 November 2023', event: 'PromptIDE: We announce the early-access release of the PromptIDE.' },
+                { date: '15 November 2023', event: 'Grok API: We released our first SDK and close partners started using our API.' },
+                { date: '7 December 2023', event: 'Grok on X: X users who are subscribed to X Premium+ can start using Grok.' },
+                { date: '17 March 2024', event: 'Grok-1 open source release: We release the weights and architecture of Grok-1 LLM.' },
+                { date: '28 March 2024', event: 'Grok-1.5: Our improved flagship model finishes training.' },
+                { date: '12 April 2024', event: 'Grok-1.5V: We added vision-capabilities to Grok-1.5.' },
+                { date: '15 May 2024', event: 'Grok-1.5 on X: Released to all X Premium users across all jurisdictions.' },
+                { date: '13 August 2024', event: 'Grok-2: Released our frontier language model with state-of-the-art reasoning capabilities.' }
+            ]
+        };
+
+        const terminal = document.getElementById('terminal');
+        const input = document.getElementById('commandInput');
+
+        function addOutput(text, isHistory = false) {
+            const output = document.createElement('div');
+            output.className = isHistory ? 'history-entry' : 'output';
+            output.textContent = text;
+            terminal.insertBefore(output, terminal.lastElementChild);
+        }
+
+        function addHistoryOutput(historyArray) {
+            historyArray.forEach(entry => {
+                const historyEntry = document.createElement('div');
+                historyEntry.className = 'history-entry';
+                historyEntry.innerHTML = `<span class="date">${entry.date}</span><br>${entry.event}`;
+                terminal.insertBefore(historyEntry, terminal.lastElementChild);
+            });
+        }
+
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const command = input.value.toLowerCase();
+                input.value = '';
+
+                addOutput(`> ${command}`);
+
+                if (command === 'history') {
+                    addHistoryOutput(commands.history);
+                } else if (commands[command]) {
+                    addOutput(commands[command]);
+                } else {
+                    addOutput('Command not recognized. Type "help" for available commands.');
+                }
+
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
